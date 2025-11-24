@@ -55,15 +55,16 @@ function validateNumber(inputElement) {
 }
 
 // ===========================
-// CALCULATION
+// CALCULATION + COLOR RESULT
 // ===========================
 function calculate() {
 
-    // Validate inputs
     const valid1 = validateNumber(txt1);
     const valid2 = validateNumber(txt2);
 
     if (!valid1 || !valid2) {
+        lblRes.classList.remove("text-success");
+        lblRes.classList.add("text-danger");
         lblRes.innerText = "Invalid input";
         print("ERROR: invalid input", true);
         return;
@@ -79,8 +80,11 @@ function calculate() {
     if (op === "+") res = num1 + num2;
     else if (op === "-") res = num1 - num2;
     else if (op === "*") res = num1 * num2;
-    else if (op === "/") res = num2 !== 0 ? (num1 / num2) : "ERR";
+    else if (op === "/") res = num2 !== 0 ? num1 / num2 : "ERR";
 
+    // SUCCESS RESULT COLOR
+    lblRes.classList.remove("text-danger");
+    lblRes.classList.add("text-success");
     lblRes.innerText = res;
 
     const logLine = `CALC:  ${num1}  ${op}  ${num2}  =  ${res}`;
@@ -96,46 +100,38 @@ btn2.addEventListener("click", () => {
 });
 
 // ===========================
-// DEMO NATIVE TYPES (step1)
+// DEMO NATIVE TYPES
 // ===========================
 function demoNative() {
     let out = "=== STEP 1: NATIVE TYPES ===\n";
 
-    // String
     const s = "Hello World";
     out += "\n[String] s = " + s;
     out += "\nLength: " + s.length;
     out += "\nUpper: " + s.toUpperCase();
 
-    // Number
     const n = 42;
     out += "\n\n[Number] n = " + n;
 
-    // Boolean
     const b = true;
     out += "\n\n[Boolean] b = " + b;
 
-    // Date
     const d = new Date();
     out += "\n\n[Date] now = " + d.toISOString();
 
-    // Array
     const arr = [1, 2, 3, 4];
     out += "\n\n[Array] arr = [" + arr.join(", ") + "]";
     out += "\nPush 5 → " + (arr.push(5), arr.join(", "));
     out += "\nMap x2 → " + arr.map(x => x * 2).join(", ");
 
-    // Functions as variables
     const add = function (a, b) { return a + b; };
     out += "\n\n[Function] add(3,4) = " + add(3, 4);
 
-    // Callback
     function calc(a, b, fn) {
         return fn(a, b);
     }
     const result = calc(10, 20, (x, y) => x + y);
     out += "\n[Callback] calc(10,20) = " + result;
 
-    // Write output (overwrite)
     print(out, false);
 }
